@@ -41,36 +41,36 @@ typedef struct s_rules
     struct timeval  now;
 }   t_rules;
 
-void        create_threads(t_rules *rules);
-void        *thread(void   *philo);
-void        eat(t_philo   *p);
-void        destroy(t_rules *rules);
+void            create_threads(t_rules *rules);
+void            *thread(void   *philo);
+void            eat(t_philo   *p);
+void            destroy(t_rules *rules);
 
-void        death(t_rules *rules, int i);
-void        stop_checker(t_rules *rules);
+void            death(t_rules *rules, int i);
+void            stop_checker(t_rules *rules);
 
-long long	timestamp(struct timeval    t);
-int         print_status(t_philo *p, int id, char *str, int status);
-void	    print_fork(t_philo *p, int id, char *str, int fork);
-void	    print_eat(t_philo *p, int id, char *str);
-void	    print_sleep(t_philo *p, int id, char *str);
-void	    print_think(t_philo *p, int id, char *str);
-int         print_die(t_philo *p, int id, char *str);
+long long	    timestamp(struct timeval    t);
+int             print_status(t_philo *p, int id, char *str, int status);
+void	        print_fork(t_philo *p, int id, char *str, int fork);
+void	        print_eat(t_philo *p, int id, char *str);
+void	        print_sleep(t_philo *p, int id, char *str);
+void	        print_think(t_philo *p, int id, char *str);
+void            print_die(t_philo *p, int id, char *str);
 
-void	    red();
-void	    yellow();
-void	    blue();
-void	    purple();
-void	    white();
-void	    reset();
+void	        red();
+void	        yellow();
+void	        blue();
+void	        purple();
+void	        white();
+void	        reset();
 
-void        init_philos(t_rules    *rules);
-int         init_mutex(t_rules  *rules);
-int         init_rules(t_rules  *rules);
+void            init_philos(t_rules    *rules);
+int             init_mutex(t_rules  *rules);
+int             init_rules(t_rules  *rules);
 
-int         parse_args(int argc, char **argv, t_rules *rules);
+int             parse_args(int argc, char **argv, t_rules *rules);
 
-int         ft_strlen(const char *str);
-long long   ft_atoi(const char *str);
+size_t          ft_strlen(const char *str);
+unsigned int    ft_atoi(const char *str);
 
 #endif

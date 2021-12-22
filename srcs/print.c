@@ -22,6 +22,18 @@ void	print_eat(t_philo *p, int id, char *str)
 	printf("%i ", id + 1);
     printf("%s", str);
 	p->eat_count++;
+	gettimeofday(&p->last_meal, NULL);
+	int i = 0;
+	int ate = 0;
+	while (p->rules->num_meals && i < p->rules->num_philos) 
+	{
+		if (p->rules->philo[i].eat_count < p->rules->num_meals)
+			break;
+        ate++;
+        i++;
+    }
+    if (p->rules->num_meals && ate == p->rules->num_philos)
+        p->rules->all_ate = 1;
 	reset();
 }
 
@@ -43,7 +55,7 @@ void	print_think(t_philo *p, int id, char *str)
 	reset();
 }
 
-int	print_die(t_philo *p, int id, char *str)
+void	print_die(t_philo *p, int id, char *str)
 {
 	red();
 	printf("%lli ms ", timestamp(p->rules->now) - timestamp(p->rules->beginning));
@@ -51,8 +63,10 @@ int	print_die(t_philo *p, int id, char *str)
     printf("%s", str);
 	p->rules->died = 1;
 	reset();
+	pthread_mutex_unlock(&(p->rules->forks[p->lfork_id]));
+    pthread_mutex_unlock(&(p->rules->forks[p->rfork_id]));
+	pthread_mutex_unlock(&(p->rules->check_meal));
 	pthread_mutex_unlock(&(p->rules->check_death));
-	return (0);
 }
 
 int	print_status(t_philo *p, int id, char *str, int status)
@@ -63,13 +77,13 @@ int	print_status(t_philo *p, int id, char *str, int status)
 		pthread_mutex_unlock(&(p->rules->check_death));
 		return (0);
 	}
-	pthread_mutex_lock(&(p->rules->print_status));	
+	pthread_mutex_lock(&(p->rules->print_status));
 	gettimeofday(&p->rules->now, NULL);	
     if (status > 0)
 		print_fork(p, id, str, status);
 	else if (status == -33)
 		print_eat(p, id, str);
-	if (status == -77)
+	else if (status == -77)
 		print_sleep(p, id, str);
 	else if (status == -99)
 		print_think(p, id, str);

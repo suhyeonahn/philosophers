@@ -17,10 +17,12 @@ void    stop_checker(t_rules *rules)
         ate = 0;
         while (i < rules->num_philos)
         {
+            pthread_mutex_lock(&(rules->check_meal));
             gettimeofday(&rules->now, NULL);
             if ((timestamp(rules->now) -
             timestamp(rules->philo[i].last_meal)) > (rules->time_to_die / 1000))
                 death(rules, i);
+            pthread_mutex_unlock(&(rules->check_meal));
             if (rules->num_meals && rules->philo[i].eat_count >= rules->num_meals)
                 ate++;
             i++;
