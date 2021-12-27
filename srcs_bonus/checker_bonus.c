@@ -2,7 +2,7 @@
 
 void    death_checker(t_philo *p)
 {
-    while (!p->died)
+    while (1)
     {
         sem_wait(p->rules->check_meal);
         gettimeofday(&p->rules->now, NULL);
@@ -25,6 +25,8 @@ void    *stop_checker(void *philo)
 
     p = (t_philo *)philo;
     sem_wait(p->rules->stop_philo_process);
+    sem_wait(p->rules->check_death);
     p->died = 1;
+    sem_post(p->rules->check_death);
     pthread_exit(NULL);
 }

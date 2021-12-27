@@ -8,6 +8,7 @@ SRC = main.c \
 		init.c \
 		parse.c \
 		print.c \
+		print_status.c \
 		print_color.c
 
 SRC_BONUS = main_bonus.c \
@@ -29,7 +30,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = -clang -pthread
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 
 INC_HEADER_BONUS = includes_bonus
 

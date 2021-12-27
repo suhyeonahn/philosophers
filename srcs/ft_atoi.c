@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: suahn <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/27 17:41:57 by suahn             #+#    #+#             */
+/*   Updated: 2021/12/27 17:44:15 by suahn            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philo.h"
 
-size_t ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
 	int	size;
 
@@ -14,19 +26,19 @@ size_t ft_strlen(const char *str)
 	return (size);
 }
 
-int ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int					i;
-	unsigned int		num;
+	int				i;
+	unsigned int	num;
 
 	i = 0;
 	num = 0;
 	if (!str[i])
-        return (-1);    
+		return (-1);
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-            return (-1);
+			return (-1);
 		num = num * 10 + str[i] - '0';
 		i++;
 	}

@@ -10,6 +10,7 @@
 #include <pthread.h>
 #include <limits.h>
 #include <semaphore.h>
+#include <fcntl.h> 
 
 struct s_rules;
 
@@ -38,6 +39,7 @@ typedef struct s_rules
     sem_t   *died_signal;
     sem_t   *check_stop;
     sem_t   *check_meal;
+    sem_t   *check_death;
     sem_t   *stop_philo_process;
     pthread_attr_t attr;
     t_philo   philo[250];
@@ -47,7 +49,7 @@ typedef struct s_rules
 
 void            create_philo_process(t_rules *rules);
 void            philo_process(t_philo *philo);
-void            eat(t_philo *p);
+int           eat(t_philo *p);
 void            *philo_acts(void *philo);
 void            destroy(t_rules *rules);
 
@@ -70,11 +72,11 @@ void            wait_for_stop(t_rules *rules);
 long long       timestamp(struct timeval t);
 int             print_status(t_rules *rules, int id, char *str, int status);
 
-void	        red();
-void	        yellow();
-void	        blue();
-void	        purple();
-void	        white();
-void	        reset();
+void	        red(void);
+void	        yellow(void);
+void	        blue(void);
+void	        purple(void);
+void	        white(void);
+void	        reset(void);
 
 #endif

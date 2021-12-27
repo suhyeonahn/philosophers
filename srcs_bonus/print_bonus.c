@@ -8,11 +8,14 @@ long long	timestamp(struct timeval    t)
 int    print_status(t_rules *rules, int id, char *str, int status)
 {
 	sem_wait(rules->check_stop);
+	sem_wait(rules->check_death);
 	if (rules->philo[id].died)
 	{
+		sem_post(rules->check_death);
 		sem_post(rules->check_stop);
 		return (0);
 	}
+	sem_post(rules->check_death);
 	sem_wait(rules->print_status);
 	if (status == 11)
 		white();
@@ -23,7 +26,6 @@ int    print_status(t_rules *rules, int id, char *str, int status)
 		if (rules->philo[id].eat_count == rules->num_meals)
 		{
 			sem_post(rules->ate_signal);
-			usleep(500);
 		}
 	}
 	else if (status == 77)
@@ -31,9 +33,7 @@ int    print_status(t_rules *rules, int id, char *str, int status)
 	else if (status == 99)
 		yellow();
 	else if (status == 444)
-	{
 		red();
-	}
 	gettimeofday(&rules->now, NULL);
 	printf("%lli ms ", timestamp(rules->now) - timestamp(rules->beginning));
 	printf("%i ", id + 1);
@@ -41,8 +41,6 @@ int    print_status(t_rules *rules, int id, char *str, int status)
 	reset();
 	sem_post(rules->print_status);
 	if (status != 444)
-	{
 		sem_post(rules->check_stop);
-	}
 	return (1);
 }
