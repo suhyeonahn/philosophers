@@ -4,7 +4,7 @@ int    parse_args(int argc, char **argv, t_rules *rules)
 {
     if (!((argc == 5) || (argc == 6)))
         return (-1);
-    if ((rules->num_philos = ft_atoi(argv[1])) < 2)
+    if ((rules->num_philos = ft_atoi(argv[1])) < 1)
         return (-1);
     if ((rules->time_to_die = ft_atoi(argv[2]) * 1000) < 0)
         return (-1);

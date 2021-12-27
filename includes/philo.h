@@ -27,8 +27,8 @@ typedef struct s_rules
     int num_philos;
     int num_meals;
     long long time_to_die;
-    int time_to_eat;
-    int time_to_sleep;
+    long long time_to_eat;
+    long long time_to_sleep;
     int died;
     int all_ate;
     pthread_mutex_t forks[250];
@@ -42,14 +42,14 @@ typedef struct s_rules
 }   t_rules;
 
 void            create_threads(t_rules *rules);
-void            *thread(void   *philo);
-void            eat(t_philo   *p);
+void            *thread(void *philo);
+void            eat(t_philo *p);
 void            destroy(t_rules *rules);
 
 void            death(t_rules *rules, int i);
 void            stop_checker(t_rules *rules);
 
-long long	    timestamp(struct timeval    t);
+long long	    timestamp(struct timeval t);
 int             print_status(t_philo *p, int id, char *str, int status);
 void	        print_fork(t_philo *p, int id, char *str, int fork);
 void	        print_eat(t_philo *p, int id, char *str);
@@ -64,13 +64,13 @@ void	        purple();
 void	        white();
 void	        reset();
 
-void            init_philos(t_rules    *rules);
-int             init_mutex(t_rules  *rules);
-int             init_rules(t_rules  *rules);
+void            init_philos(t_rules *rules);
+int             init_mutex(t_rules *rules);
+int             init_rules(t_rules *rules);
 
 int             parse_args(int argc, char **argv, t_rules *rules);
 
 size_t          ft_strlen(const char *str);
-unsigned int    ft_atoi(const char *str);
+int             ft_atoi(const char *str);
 
 #endif

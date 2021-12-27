@@ -5,27 +5,42 @@ void    destroy(t_rules *rules)
     pthread_attr_destroy(&rules->attr);
     sem_close(rules->fork);
     sem_unlink("fork");
-    sem_close(rules->check_meal);
-    sem_unlink("check_meal");
-    sem_close(rules->check_all_ate);
-    sem_unlink("check_all_ate");
-    sem_close(rules->check_death);
-    sem_unlink("check_death");
     sem_close(rules->print_status);
     sem_unlink("print_status");
+    sem_close(rules->ate_signal);
+    sem_unlink("ate_signal");
+    sem_close(rules->died_signal);
+    sem_unlink("died_signal");
+    sem_close(rules->check_stop);
+    sem_unlink("check_stop");
+    sem_close(rules->check_meal);
+    sem_unlink("check_meal");
+    sem_close(rules->stop_philo_process);
+    sem_unlink("stop_philo_process");
     pthread_exit(NULL);
 }
 
 void    eat(t_philo  *p)
 {
     sem_wait(p->rules->fork);
+    if (!print_status(p->rules, p->id, "has a fork", 11))
+    {
+        return ;
+    }
     sem_wait(p->rules->fork);
-    print_status(p->rules, p->id, "has a fork", 0);
-    print_status(p->rules, p->id, "has a fork", 0);
-    p->eat_count++;
-    print_status(p->rules, p->id, "is eating", 0);
+    if (!print_status(p->rules, p->id, "has a fork", 11))
+    {
+        return;
+    }
+    sem_wait(p->rules->check_meal);
+    if (!print_status(p->rules, p->id, "is eating", 33))
+    {
+        sem_post(p->rules->check_meal);
+        return ;
+    }
+    sem_post(p->rules->check_meal);
     gettimeofday(&p->last_meal, NULL); 
-    usleep(p->rules->time_to_eat);
+    usleep(p->rules->time_to_eat - 500);
     sem_post(p->rules->fork);
     sem_post(p->rules->fork);
 }
@@ -35,14 +50,18 @@ void    *philo_acts(void *philo)
     t_philo *p;
 
     p = (t_philo *)philo;
-    while (!p->rules->died && !p->rules->all_ate)
+    while (!p->died)
     {
         eat(p);
-        if (p->rules->all_ate)       
+        if (!print_status(p->rules, p->id, "is sleeping", 77))
+        {
             break;
-        print_status(p->rules, p->id, "is sleeping", 0);
+        }
         usleep(p->rules->time_to_sleep);
-        print_status(p->rules, p->id, "is thinking", 0);
+        if (!print_status(p->rules, p->id, "is thinking", 99))
+        {
+            break;
+        }
     }
     pthread_exit(NULL);
 }
@@ -51,10 +70,10 @@ void    philo_process(t_philo *p)
 {
     if (pthread_create(&(p->t_id), &p->rules->attr, philo_acts, (void *)p) < 0)
         exit (0);
-    if (pthread_create(&(p->meal_check_t_id), &p->rules->attr, meal_checker, (void *)p) < 0)
+    if (pthread_create(&(p->stop_check_t_id), &p->rules->attr, stop_checker, (void *)p) < 0)
         exit (0);
     death_checker(p);
-    pthread_join(p->meal_check_t_id, NULL);
+    pthread_join(p->stop_check_t_id, NULL);
     pthread_join(p->t_id, NULL);
     exit(0);
 }
@@ -74,6 +93,7 @@ void    create_philo_processes(t_rules *rules)
         else if (philo[i].p_id == 0)
             philo_process(&philo[i]);
         i++;
+        usleep(50);
     }
 }
 

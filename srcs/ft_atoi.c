@@ -14,14 +14,14 @@ size_t ft_strlen(const char *str)
 	return (size);
 }
 
-unsigned int ft_atoi(const char *str)
+int ft_atoi(const char *str)
 {
 	int					i;
-	unsigned long long	num;
+	unsigned int		num;
 
 	i = 0;
 	num = 0;
-	if (ft_strlen(str) > 11 || !str[i])
+	if (!str[i])
         return (-1);    
 	while (str[i])
 	{
@@ -30,7 +30,7 @@ unsigned int ft_atoi(const char *str)
 		num = num * 10 + str[i] - '0';
 		i++;
 	}
-	if (num > 4294967295)
+	if (num > 2147483647)
 		return (-1);
 	return (num);
 }

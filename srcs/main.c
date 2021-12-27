@@ -35,7 +35,10 @@ void    eat(t_philo   *p)
         return ;
     pthread_mutex_lock(&(p->rules->check_meal));
     if (!print_status(p, p->id, "is eating\n", -33))
+    {
+        pthread_mutex_unlock(&(p->rules->check_meal));
         return ;
+    }
     pthread_mutex_unlock(&(p->rules->check_meal));
     usleep(p->rules->time_to_eat);
     pthread_mutex_unlock(&(p->rules->forks[p->lfork_id]));

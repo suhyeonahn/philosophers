@@ -1,10 +1,12 @@
 #include "../includes_bonus/philo_bonus.h"
 
-int	ft_strlen(const char *str)
+size_t ft_strlen(const char *str)
 {
 	int	size;
 
 	size = 0;
+	if (!str)
+		return (0);
 	while (str[size])
 	{
 		size++;
@@ -12,14 +14,14 @@ int	ft_strlen(const char *str)
 	return (size);
 }
 
-long long	ft_atoi(const char *str)
+int ft_atoi(const char *str)
 {
-	int			i;
-	long long	num;
+	int					i;
+	unsigned int		num;
 
 	i = 0;
 	num = 0;
-	if (ft_strlen(str) > 11 || !str[i])
+	if (!str[i])
         return (-1);    
 	while (str[i])
 	{
@@ -28,7 +30,7 @@ long long	ft_atoi(const char *str)
 		num = num * 10 + str[i] - '0';
 		i++;
 	}
-	if (num < INT_MIN || num > INT_MAX)
-        return (-1);
+	if (num > 2147483647)
+		return (-1);
 	return (num);
 }

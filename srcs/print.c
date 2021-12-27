@@ -66,7 +66,7 @@ void	print_die(t_philo *p, int id, char *str)
 	pthread_mutex_unlock(&(p->rules->forks[p->lfork_id]));
     pthread_mutex_unlock(&(p->rules->forks[p->rfork_id]));
 	pthread_mutex_unlock(&(p->rules->check_meal));
-	pthread_mutex_unlock(&(p->rules->check_death));
+	pthread_mutex_unlock(&(p->rules->check_death)); // delete ?
 }
 
 int	print_status(t_philo *p, int id, char *str, int status)

@@ -16,6 +16,7 @@ SRC_BONUS = main_bonus.c \
 				init_bonus.c \
 				parse_bonus.c \
 				print_bonus.c \
+				print_color_bonus.c \
 				wait_bonus.c
 
 INC_HEADER = includes
@@ -26,9 +27,9 @@ SRCS = $(addprefix ${DIR_S}/, ${SRC})
 
 OBJS = $(SRCS:.c=.o)
 
-CC = clang -pthread
+CC = -clang -pthread
 
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror
 
 INC_HEADER_BONUS = includes_bonus
 
